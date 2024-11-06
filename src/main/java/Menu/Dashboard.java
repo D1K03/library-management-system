@@ -1,5 +1,6 @@
 package Menu;
 
+
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
@@ -28,4 +29,3 @@ public class Dashboard extends JPanel implements ActionListener {
 
     }
 }
-

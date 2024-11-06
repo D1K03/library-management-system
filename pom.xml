@@ -47,15 +47,27 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jdatepicker</groupId>
-            <artifactId>jdatepicker</artifactId>
-            <version>1.3.4</version>
+            <groupId>com.github.weisj</groupId>
+            <artifactId>jsvg</artifactId>
+            <version>1.6.1</version>
         </dependency>
 
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>svgSalamander</artifactId>
             <version>1.1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>9.1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.protobuf</groupId>
+                    <artifactId>protobuf-java</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
