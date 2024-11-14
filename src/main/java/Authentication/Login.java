@@ -81,7 +81,7 @@ public class Login extends JPanel implements ActionListener {
                 if (LoginData.get(userID).equals(password)) {
                     //Sign In Successful
                     System.out.println("Sign in Successful");
-                    cardLayout.show(switchPanel, "dashboard");
+                    cardLayout.show(switchPanel, "home");
                 } else {
                     //Incorrect Password
                     System.out.println("Incorrect Email or Password");

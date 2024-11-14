@@ -1,9 +1,11 @@
-import Authentication.*;
+package Authentication;
+
 import Menu.*;
 import com.formdev.flatlaf.fonts.roboto_mono.FlatRobotoMonoFont;
 import net.miginfocom.swing.MigLayout;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -32,9 +34,9 @@ public class Main extends JFrame {
         switchPanel.add(new Login(cardLayout, switchPanel),"login");
         switchPanel.add(new SignUp(cardLayout, switchPanel), "signup");
         switchPanel.add(new ResetPassword(cardLayout, switchPanel), "resetpassword");
-        switchPanel.add(new Dashboard(), "dashboard");
+        switchPanel.add(new Home(cardLayout, switchPanel, this), "home");
 
-        add(switchPanel, BorderLayout.CENTER);
+        add(switchPanel, "grow");
     }
 
     public void showPanel(String panelName) {
