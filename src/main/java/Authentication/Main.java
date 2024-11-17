@@ -1,6 +1,6 @@
 package Authentication;
 
-import Menu.*;
+import Menu.ui.Home;
 import com.formdev.flatlaf.fonts.roboto_mono.FlatRobotoMonoFont;
 import net.miginfocom.swing.MigLayout;
 import com.formdev.flatlaf.FlatLaf;

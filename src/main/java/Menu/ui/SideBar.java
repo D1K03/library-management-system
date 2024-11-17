@@ -1,4 +1,4 @@
-package Menu;
+package Menu.ui;
 
 
 import javax.swing.*;
@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Authentication.Main;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import net.miginfocom.swing.MigLayout;
 import com.formdev.flatlaf.FlatClientProperties;
 
@@ -16,7 +17,6 @@ public class SideBar extends JPanel implements ActionListener {
     private CardLayout cardLayout;
     private JPanel switchPanel;
     private Main main;
-
 
 
     SideBar(CardLayout cardLayout, JPanel switchPanel, Main main) {
@@ -31,7 +31,7 @@ public class SideBar extends JPanel implements ActionListener {
 
     private void createBar() {
         setLayout(new MigLayout("insets 0", "0[grow]0", "0[]0"));
-        putClientProperty(FlatClientProperties.STYLE, "arc:20;" +
+        putClientProperty(FlatClientProperties.STYLE,
                 "[light]background:darken(@background, 5%);" +
                 "[dark]background:lighten(@background, 5%)"
         );
@@ -41,46 +41,84 @@ public class SideBar extends JPanel implements ActionListener {
     private void createButtons() {
         dashBtn = new JButton("Dashboard");
         dashBtn.setBorder(BorderFactory.createEmptyBorder());
+        dashBtn.putClientProperty(FlatClientProperties.STYLE,
+                "[light]background:darken(@background, 5%);" +
+                        "[dark]background:lighten(@background, 5%)"
+        );
         dashBtn.addActionListener(this);
         add(dashBtn, "growx, wrap, height 50");
 
         bookBtn = new JButton("View Books");
         bookBtn.setBorder(BorderFactory.createEmptyBorder());
+        bookBtn.putClientProperty(FlatClientProperties.STYLE,
+                "[light]background:darken(@background, 5%);" +
+                        "[dark]background:lighten(@background, 5%)"
+        );
         bookBtn.addActionListener(this);
         add(bookBtn, "growx, wrap, height 50");
 
-        userBtn = new JButton("Members");
-        userBtn.setBorder(BorderFactory.createEmptyBorder());
-        userBtn.addActionListener(this);
-        add(userBtn, "growx, wrap, height 50");
 
-        issuedBtn = new JButton("Issued Books");
-        issuedBtn.setBorder(BorderFactory.createEmptyBorder());
-        issuedBtn.addActionListener(this);
-        add(issuedBtn, "growx, wrap, height 50");
+            userBtn = new JButton("Members");
+            userBtn.setBorder(BorderFactory.createEmptyBorder());
+            userBtn.putClientProperty(FlatClientProperties.STYLE,
+                    "[light]background:darken(@background, 5%);" +
+                            "[dark]background:lighten(@background, 5%)"
+            );
+            userBtn.addActionListener(this);
+            add(userBtn, "growx, wrap, height 50");
 
-        addBtn = new JButton("Add Books");
-        addBtn.setBorder(BorderFactory.createEmptyBorder());
-        addBtn.addActionListener(this);
-        add(addBtn, "growx, wrap, height 50");
+            issuedBtn = new JButton("Issued Books");
+            issuedBtn.setBorder(BorderFactory.createEmptyBorder());
+            issuedBtn.putClientProperty(FlatClientProperties.STYLE,
+                    "[light]background:darken(@background, 5%);" +
+                            "[dark]background:lighten(@background, 5%)"
+            );
+            issuedBtn.addActionListener(this);
+            add(issuedBtn, "growx, wrap, height 50");
 
-        removeBtn = new JButton("Remove Books");
-        removeBtn.setBorder(BorderFactory.createEmptyBorder());
-        removeBtn.addActionListener(this);
-        add(removeBtn, "growx, wrap, height 50");
+            addBtn = new JButton("Add Books");
+            addBtn.setBorder(BorderFactory.createEmptyBorder());
+            addBtn.putClientProperty(FlatClientProperties.STYLE,
+                    "[light]background:darken(@background, 5%);" +
+                            "[dark]background:lighten(@background, 5%)"
+            );
+            addBtn.addActionListener(this);
+            add(addBtn, "growx, wrap, height 50");
+
+            removeBtn = new JButton("Remove Books");
+            removeBtn.setBorder(BorderFactory.createEmptyBorder());
+            removeBtn.putClientProperty(FlatClientProperties.STYLE,
+                    "[light]background:darken(@background, 5%);" +
+                            "[dark]background:lighten(@background, 5%)"
+            );
+            removeBtn.addActionListener(this);
+            add(removeBtn, "growx, wrap, height 50");
+
 
         returnBtn = new JButton("Return Books");
         returnBtn.setBorder(BorderFactory.createEmptyBorder());
+        returnBtn.putClientProperty(FlatClientProperties.STYLE,
+                "[light]background:darken(@background, 5%);" +
+                        "[dark]background:lighten(@background, 5%)"
+        );
         returnBtn.addActionListener(this);
         add(returnBtn, "growx, wrap, height 50");
 
         aboutBtn = new JButton("About Author");
         aboutBtn.setBorder(BorderFactory.createEmptyBorder());
+        aboutBtn.putClientProperty(FlatClientProperties.STYLE,
+                "[light]background:darken(@background, 5%);" +
+                        "[dark]background:lighten(@background, 5%)"
+        );
         aboutBtn.addActionListener(this);
         add(aboutBtn, "growx, wrap, height 50");
 
         logBtn = new JButton("Log Out");
         logBtn.setBorder(BorderFactory.createEmptyBorder());
+        logBtn.putClientProperty(FlatClientProperties.STYLE,
+                "[light]background:darken(@background, 5%);" +
+                        "[dark]background:lighten(@background, 5%)"
+        );
         logBtn.addActionListener(this);
         add(logBtn, "growx, wrap, height 50, gapy 125");
     }
@@ -89,10 +127,11 @@ public class SideBar extends JPanel implements ActionListener {
         profileLabel = new JLabel();
         profileLabel.setHorizontalAlignment(SwingConstants.CENTER);
         profileLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
-        profileLabel.putClientProperty(FlatClientProperties.STYLE, "arc:20;" +
-                "[light]background:darken(@background, 10%);" +
-                "[dark]background:lighten(@background, 10%)"
-        );
+
+        // Create and set the FlatSVGIcon
+        FlatSVGIcon profileIcon = new FlatSVGIcon("images/library-icon.svg", 75, 75);
+        profileLabel.setIcon(profileIcon);
+
         add(profileLabel, "growx, wrap, height 75");
 
     }

@@ -1,4 +1,6 @@
-package Menu;
+package Menu.ui;
+
+import com.formdev.flatlaf.FlatClientProperties;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +18,16 @@ public class RemoveMenu extends JPanel implements ActionListener {
     }
 
     public void createRemove() {
-        setBackground(Color.CYAN);
+        setLayout(new BorderLayout());
+        putClientProperty(FlatClientProperties.STYLE, "arc:20;" +
+                "[light]background:darken(@background, 10%);" +
+                "[dark]background:lighten(@background, 10%)"
+        );
+
+        JLabel headerLabel = new JLabel("Book Removal", SwingConstants.CENTER);
+        headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        add(headerLabel, BorderLayout.NORTH);
+
     }
 
     @Override

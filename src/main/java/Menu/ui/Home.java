@@ -1,6 +1,7 @@
-package Menu;
+package Menu.ui;
 
 
+import Service.UserService;
 import com.formdev.flatlaf.FlatClientProperties;
 import Authentication.Main;
 import javax.swing.*;
@@ -12,8 +13,11 @@ public class Home extends JPanel implements ActionListener {
     private CardLayout cardLayout;
     private JPanel switchPanel;
     private JButton test;
+    private JLabel panelName;
     private SideBar sideBar;
     private Main main;
+    private UserService userService = new UserService();
+    private int userId;
 
 
 
@@ -21,6 +25,7 @@ public class Home extends JPanel implements ActionListener {
         this.main = main;
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
+        this.userId = userId;
         createHome();
     }
 

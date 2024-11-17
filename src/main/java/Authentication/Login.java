@@ -5,23 +5,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+
+import Service.UserService;
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 
 public class Login extends JPanel implements ActionListener {
-    HashMap<String,String> LoginData = new HashMap<String,String>();
     private CardLayout cardLayout;
     private JPanel switchPanel, loginPanel;
     private JTextField userEmail;
     private JPasswordField userPassword;
     private JButton loginButton, resetPassword, newMember;
+    private JCheckBox rememberMe;
+    private UserService userService;
 
     public Login(CardLayout cardLayout, JPanel switchPanel) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
+        this.userService = new UserService();
         createPanel();
 
-        LoginData.put("","");
         userEmail = new JTextField();
         userEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Email Address");
 
@@ -47,7 +50,7 @@ public class Login extends JPanel implements ActionListener {
         JLabel title = new JLabel("Login");
         title.putClientProperty(FlatClientProperties.STYLE, "font:bold 24");
 
-        JCheckBox rememberMe = new JCheckBox("Remember Me");
+        rememberMe = new JCheckBox("Remember Me");
 
         JLabel askMember = new JLabel("Don't have an account?");
 
@@ -71,21 +74,23 @@ public class Login extends JPanel implements ActionListener {
         add(loginPanel);
     }
 
+    private void resetLoginData() {
+        userEmail.setText("");
+        userPassword.setText("");
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            String userID = userEmail.getText();
+            String email = userEmail.getText();
             String password = String.valueOf(userPassword.getPassword());
 
-            if (LoginData.containsKey(userID)) {
-                if (LoginData.get(userID).equals(password)) {
-                    //Sign In Successful
-                    System.out.println("Sign in Successful");
-                    cardLayout.show(switchPanel, "home");
-                } else {
-                    //Incorrect Password
-                    System.out.println("Incorrect Email or Password");
+            if (userService.checkUserCredentials(email, password)) {
+                if (!rememberMe.isSelected()) {
+                    resetLoginData();
                 }
+                cardLayout.show(switchPanel, "home");
             } else {
                 //Not Signed Up
                 System.out.println("Incorrect Email or Password");
@@ -93,6 +98,7 @@ public class Login extends JPanel implements ActionListener {
         }
 
         else if (e.getSource() == newMember) {
+            resetLoginData();
             cardLayout.show(switchPanel, "signup");
         }
 

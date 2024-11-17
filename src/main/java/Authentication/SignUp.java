@@ -2,31 +2,39 @@ package Authentication;
 
 import javax.swing.*;
 import java.awt.*;
+import Authentication.Main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
+
+import Menu.ui.Home;
+import Service.UserService;
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 
 
 public class SignUp extends JPanel implements ActionListener {
-    HashMap<String,String> LoginData = new HashMap<String,String>();
     private CardLayout cardLayout;
     private JPanel switchPanel;
     private JPanel registerPanel;
-    private JTextField userEmail;
+    private JTextField userEmail, firstName, lastName;
     private JPasswordField userPassword, confirmPassword;
-    private JButton loginButton, resetPassword, newMember, oldMember;
+    private JButton signupButton, resetPassword, newMember, oldMember;
+    private UserService userService;
+    private Main main;
 
     public SignUp(CardLayout cardLayout, JPanel switchPanel) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
+        this.userService = new UserService();
         createPanel();
 
-        JTextField firstName = new JTextField();
+        firstName = new JTextField();
         firstName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "First name");
 
-        JTextField  lastName = new JTextField();
+        lastName = new JTextField();
         lastName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Last name");
 
         userEmail = new JTextField();
@@ -51,8 +59,8 @@ public class SignUp extends JPanel implements ActionListener {
         oldMember.setBorderPainted(false);
         oldMember.setOpaque(false);
 
-        loginButton = new JButton("Sign Up");
-        loginButton.addActionListener(this);
+        signupButton = new JButton("Sign Up");
+        signupButton.addActionListener(this);
 
         JLabel title = new JLabel("Sign Up");
         title.putClientProperty(FlatClientProperties.STYLE, "font:bold 24");
@@ -63,7 +71,7 @@ public class SignUp extends JPanel implements ActionListener {
         registerPanel.add(userEmail, "gapy 20, height 30");
         registerPanel.add(userPassword, "gapy 20, height 30");
         registerPanel.add(confirmPassword, "gapy 20, height 30");
-        registerPanel.add(loginButton, "gapy 20, height 30");
+        registerPanel.add(signupButton, "gapy 20, height 30");
         registerPanel.add(askMember, "gapy 10, split 2");
         registerPanel.add(oldMember);
     }
@@ -78,9 +86,35 @@ public class SignUp extends JPanel implements ActionListener {
         add(registerPanel);
     }
 
+    private void resetSignUpData() {
+        firstName.setText("");
+        lastName.setText("");
+        userEmail.setText("");
+        userPassword.setText("");
+        confirmPassword.setText("");
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == oldMember) {
+        if (e.getSource() == signupButton && userPassword.getText().equals(confirmPassword.getText())) {
+            String forename = firstName.getText();
+            String surname = lastName.getText();
+            String email = userEmail.getText();
+            String password = String.valueOf(userPassword.getPassword());
+            String role = "student"; // Default role
+            Date registrationDate = Date.valueOf(LocalDate.now());
+
+            if (userService.emailExists(email)) {
+                JOptionPane.showMessageDialog(this, "User with Email is already Registered");
+            } else {
+                userService.addUser(forename, surname, email, role, registrationDate, password);// Implement this method to get user ID by email
+                switchPanel.add(new Home(cardLayout, switchPanel, main), "home");
+                resetSignUpData();
+                cardLayout.show(switchPanel, "home");
+            }
+        } else if (e.getSource() == oldMember) {
+            resetSignUpData();
             cardLayout.show(switchPanel, "login");
         }
     }
