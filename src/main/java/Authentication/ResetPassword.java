@@ -9,18 +9,18 @@ import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 
 public class ResetPassword extends JPanel implements ActionListener {
-    HashMap<String,String> LoginData = new HashMap<String,String>();
     private CardLayout cardLayout;
     private JPanel switchPanel, resetPanel;
     private JTextField userEmail;
     private JButton resetButton, returnLogin;
+    private Main main;
 
-    public ResetPassword(CardLayout cardLayout, JPanel switchPanel) {
+    public ResetPassword(CardLayout cardLayout, JPanel switchPanel, Main main) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
+        this.main = main;
         createPanel();
 
-        LoginData.put("","");
         JTextField userEmail = new JTextField();
         userEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Email Address");
 

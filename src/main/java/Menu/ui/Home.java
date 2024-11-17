@@ -1,6 +1,11 @@
 package Menu.ui;
 
 
+import Menu.ui.menupanels.*;
+import Menu.ui.sidebars.AdminSideBar;
+import Menu.ui.sidebars.LibrarianSideBar;
+import Menu.ui.sidebars.SideBar;
+import Menu.ui.sidebars.StudentSideBar;
 import Service.UserService;
 import com.formdev.flatlaf.FlatClientProperties;
 import Authentication.Main;
@@ -16,20 +21,20 @@ public class Home extends JPanel implements ActionListener {
     private JLabel panelName;
     private SideBar sideBar;
     private Main main;
-    private UserService userService = new UserService();
+    private UserService userService;
     private int userId;
 
 
 
-    public Home(CardLayout cardLayout, JPanel switchPanel, Main main) {
+    public Home(CardLayout cardLayout, JPanel switchPanel, Main main, String userRole) {
         this.main = main;
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
-        this.userId = userId;
-        createHome();
+        userService = new UserService();
+        createHome(userRole);
     }
 
-    private void createHome() {
+    private void createHome(String userRole) {
         setLayout(new BorderLayout());
 
         cardLayout = new CardLayout();
@@ -47,7 +52,15 @@ public class Home extends JPanel implements ActionListener {
         switchPanel.add(new ReturnMenu(cardLayout, switchPanel), "return");
         switchPanel.add(new AboutMenu(cardLayout, switchPanel), "about");
 
-        sideBar = new SideBar(cardLayout, switchPanel, main);
+        if (userRole.equals("admin")) {
+            sideBar = new AdminSideBar(cardLayout, switchPanel, main);
+        } else if (userRole.equals("librarian")) {
+            sideBar = new LibrarianSideBar(cardLayout, switchPanel, main);
+        } else {
+            sideBar = new StudentSideBar(cardLayout, switchPanel, main);
+
+        }
+
         add(sideBar, BorderLayout.WEST);
         add(switchPanel, BorderLayout.CENTER);
     }

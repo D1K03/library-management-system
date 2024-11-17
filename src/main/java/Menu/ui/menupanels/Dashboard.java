@@ -1,6 +1,7 @@
-package Menu.ui;
+package Menu.ui.menupanels;
 
 
+import Service.UserService;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import net.miginfocom.swing.MigLayout;
@@ -9,17 +10,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class Dashboard extends JPanel implements ActionListener {
     private CardLayout cardLayout;
     private JPanel switchPanel, gridContainer;
     private JLabel tUsersLabel, tBooksLabel, issuedLabel, returnedLabel;
+    private UserService userService;
 
 
     public Dashboard(CardLayout cardLayout, JPanel switchPanel) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
+        userService = new UserService();
         createDash();
+        getUserCount();
     }
 
     private void createDash() {
@@ -46,6 +51,16 @@ public class Dashboard extends JPanel implements ActionListener {
         gridContainer.add(createBox("Returned Books", returnedLabel, "images/user-in-icon.svg"));
 
         add(gridContainer, BorderLayout.CENTER);
+    }
+
+    private void getUserCount() {
+        try {
+            int totalUsers = userService.countUsers();
+            tUsersLabel.setText(String.valueOf(totalUsers));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            tUsersLabel.setText("Error");
+        }
     }
 
     private JPanel createBox(String title, JLabel valueLabel, String iconPath) {

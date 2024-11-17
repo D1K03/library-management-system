@@ -44,4 +44,29 @@ public class UserDAO {
             return rs.next();
         }
     }
+
+    public String getUserRole(String email) throws SQLException {
+        String query = "SELECT role FROM users WHERE email = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement getUserRole = conn.prepareStatement(query)) {
+            getUserRole.setString(1, email);
+            ResultSet rs = getUserRole.executeQuery();
+            if (rs.next()) {
+                return rs.getString("role");
+            }
+        }
+        return null;
+    }
+
+    public int countUsers() throws SQLException {
+        String query = "SELECT COUNT(*) AS total FROM users";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement getUserCount = conn.prepareStatement(query)) {
+            ResultSet rs = getUserCount.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        }
+        return 0;
+    }
 }

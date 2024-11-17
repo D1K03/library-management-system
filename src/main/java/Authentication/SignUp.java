@@ -25,9 +25,10 @@ public class SignUp extends JPanel implements ActionListener {
     private UserService userService;
     private Main main;
 
-    public SignUp(CardLayout cardLayout, JPanel switchPanel) {
+    public SignUp(CardLayout cardLayout, JPanel switchPanel, Main main) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
+        this.main = main;
         this.userService = new UserService();
         createPanel();
 
@@ -108,9 +109,9 @@ public class SignUp extends JPanel implements ActionListener {
             if (userService.emailExists(email)) {
                 JOptionPane.showMessageDialog(this, "User with Email is already Registered");
             } else {
-                userService.addUser(forename, surname, email, role, registrationDate, password);// Implement this method to get user ID by email
-                switchPanel.add(new Home(cardLayout, switchPanel, main), "home");
+                userService.addUser(forename, surname, email, role, registrationDate, password);
                 resetSignUpData();
+                main.openHomePanel(role);
                 cardLayout.show(switchPanel, "home");
             }
         } else if (e.getSource() == oldMember) {

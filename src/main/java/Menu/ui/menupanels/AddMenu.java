@@ -1,4 +1,4 @@
-package Menu.ui;
+package Menu.ui.menupanels;
 
 import com.formdev.flatlaf.FlatClientProperties;
 

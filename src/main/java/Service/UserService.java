@@ -1,9 +1,9 @@
 package Service;
 
+import Database.DBConnection;
 import Database.UserDAO;
 
-import java.sql.Date;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserService {
     private UserDAO userData = new UserDAO();
@@ -32,5 +32,26 @@ public class UserService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public String getUserRole(String email) {
+        try {
+            return userData.getUserRole(email);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public int countUsers() throws SQLException {
+        String query = "SELECT COUNT(*) AS total FROM users";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        }
+        return 0;
     }
 }

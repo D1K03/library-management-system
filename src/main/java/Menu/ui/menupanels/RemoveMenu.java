@@ -1,4 +1,4 @@
-package Menu.ui;
+package Menu.ui.menupanels;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
@@ -7,24 +7,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AboutMenu extends JPanel implements ActionListener {
+public class RemoveMenu extends JPanel implements ActionListener {
     private CardLayout cardLayout;
     private JPanel switchPanel;
 
-    public AboutMenu(CardLayout cardLayout, JPanel switchPanel) {
+    public RemoveMenu(CardLayout cardLayout, JPanel switchPanel) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
-        createAbout();
+        createRemove();
     }
 
-    public void createAbout() {
+    public void createRemove() {
         setLayout(new BorderLayout());
         putClientProperty(FlatClientProperties.STYLE, "arc:20;" +
                 "[light]background:darken(@background, 10%);" +
                 "[dark]background:lighten(@background, 10%)"
         );
 
-        JLabel headerLabel = new JLabel("About Author", SwingConstants.CENTER);
+        JLabel headerLabel = new JLabel("Book Removal", SwingConstants.CENTER);
         headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         add(headerLabel, BorderLayout.NORTH);
 

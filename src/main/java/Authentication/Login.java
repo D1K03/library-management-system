@@ -18,10 +18,12 @@ public class Login extends JPanel implements ActionListener {
     private JButton loginButton, resetPassword, newMember;
     private JCheckBox rememberMe;
     private UserService userService;
+    private Main main;
 
-    public Login(CardLayout cardLayout, JPanel switchPanel) {
+    public Login(CardLayout cardLayout, JPanel switchPanel, Main main) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
+        this.main = main;
         this.userService = new UserService();
         createPanel();
 
@@ -87,9 +89,11 @@ public class Login extends JPanel implements ActionListener {
             String password = String.valueOf(userPassword.getPassword());
 
             if (userService.checkUserCredentials(email, password)) {
+                String userPosition = userService.getUserRole(email);
                 if (!rememberMe.isSelected()) {
                     resetLoginData();
                 }
+                main.openHomePanel(userPosition);
                 cardLayout.show(switchPanel, "home");
             } else {
                 //Not Signed Up
@@ -98,7 +102,9 @@ public class Login extends JPanel implements ActionListener {
         }
 
         else if (e.getSource() == newMember) {
-            resetLoginData();
+            if (!rememberMe.isSelected()) {
+                resetLoginData();
+            }
             cardLayout.show(switchPanel, "signup");
         }
 

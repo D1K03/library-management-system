@@ -1,4 +1,4 @@
-package Menu.ui;
+package Menu.ui.menupanels;
 
 import Menu.tables.BookTable;
 import com.formdev.flatlaf.FlatClientProperties;

@@ -31,12 +31,15 @@ public class Main extends JFrame {
 
         cardLayout = new CardLayout();
         switchPanel = new JPanel(cardLayout);
-        switchPanel.add(new Login(cardLayout, switchPanel),"login");
-        switchPanel.add(new SignUp(cardLayout, switchPanel), "signup");
-        switchPanel.add(new ResetPassword(cardLayout, switchPanel), "resetpassword");
-        switchPanel.add(new Home(cardLayout, switchPanel, this), "home");
+        switchPanel.add(new Login(cardLayout, switchPanel, this),"login");
+        switchPanel.add(new SignUp(cardLayout, switchPanel, this), "signup");
+        switchPanel.add(new ResetPassword(cardLayout, switchPanel, this), "resetpassword");
 
         add(switchPanel, "grow");
+    }
+
+    public void openHomePanel(String userRole) {
+        switchPanel.add(new Home(cardLayout, switchPanel, this, userRole), "home");
     }
 
     public void showPanel(String panelName) {
