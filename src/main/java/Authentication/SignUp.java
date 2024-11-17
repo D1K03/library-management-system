@@ -5,8 +5,8 @@ import java.awt.*;
 import Authentication.Main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import Menu.ui.Home;
@@ -104,7 +104,7 @@ public class SignUp extends JPanel implements ActionListener {
             String email = userEmail.getText();
             String password = String.valueOf(userPassword.getPassword());
             String role = "student"; // Default role
-            Date registrationDate = Date.valueOf(LocalDate.now());
+            Timestamp registrationDate = Timestamp.valueOf(LocalDateTime.now());
 
             if (userService.emailExists(email)) {
                 JOptionPane.showMessageDialog(this, "User with Email is already Registered");

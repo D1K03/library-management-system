@@ -17,7 +17,7 @@ public class UserService {
         }
     }
 
-    public void addUser(String firstName, String lastName, String email, String role, Date registrationDate, String password) {
+    public void addUser(String firstName, String lastName, String email, String role, Timestamp registrationDate, String password) {
         try {
             userData.addUser(firstName, lastName, email, role, registrationDate, password);
         } catch (SQLException e) {
@@ -46,8 +46,8 @@ public class UserService {
     public int countUsers() throws SQLException {
         String query = "SELECT COUNT(*) AS total FROM users";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            ResultSet rs = stmt.executeQuery();
+             PreparedStatement retrieveUsers = conn.prepareStatement(query)) {
+            ResultSet rs = retrieveUsers.executeQuery();
             if (rs.next()) {
                 return rs.getInt("total");
             }

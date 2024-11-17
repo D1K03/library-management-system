@@ -1,11 +1,11 @@
 package Menu.ui.menupanels;
 
 
+import Service.BookService;
 import Service.UserService;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import net.miginfocom.swing.MigLayout;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,14 +17,17 @@ public class Dashboard extends JPanel implements ActionListener {
     private JPanel switchPanel, gridContainer;
     private JLabel tUsersLabel, tBooksLabel, issuedLabel, returnedLabel;
     private UserService userService;
+    private BookService bookService;
 
 
     public Dashboard(CardLayout cardLayout, JPanel switchPanel) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
         userService = new UserService();
+        bookService = new BookService();
         createDash();
         getUserCount();
+        getBookCount();
     }
 
     private void createDash() {
@@ -60,6 +63,16 @@ public class Dashboard extends JPanel implements ActionListener {
         } catch (SQLException e) {
             e.printStackTrace();
             tUsersLabel.setText("Error");
+        }
+    }
+
+    private void getBookCount() {
+        try {
+            int totalBooks = bookService.countBooks();
+            tBooksLabel.setText(String.valueOf(totalBooks));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            tBooksLabel.setText("Error");
         }
     }
 

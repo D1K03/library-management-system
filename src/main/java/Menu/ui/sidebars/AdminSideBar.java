@@ -28,13 +28,9 @@ public class AdminSideBar extends SideBar {
         issuedBtn.addActionListener(this);
         add(issuedBtn, "growx, wrap, height 50");
 
-        addBtn = new JButton("Add Books");
-        addBtn.addActionListener(this);
-        add(addBtn, "growx, wrap, height 50");
-
-        removeBtn = new JButton("Remove Books");
-        removeBtn.addActionListener(this);
-        add(removeBtn, "growx, wrap, height 50");
+        manageBtn = new JButton("Manage Books");
+        manageBtn.addActionListener(this);
+        add(manageBtn, "growx, wrap, height 50");
 
         JButton addLibrarianBtn = new JButton("Add Librarian");
         addLibrarianBtn.addActionListener(this);

@@ -25,7 +25,6 @@ public class Home extends JPanel implements ActionListener {
     private int userId;
 
 
-
     public Home(CardLayout cardLayout, JPanel switchPanel, Main main, String userRole) {
         this.main = main;
         this.cardLayout = cardLayout;
@@ -47,8 +46,7 @@ public class Home extends JPanel implements ActionListener {
         switchPanel.add(new BooksMenu(cardLayout, switchPanel), "books");
         switchPanel.add(new Members(cardLayout, switchPanel), "members");
         switchPanel.add(new Issued(cardLayout, switchPanel), "issued");
-        switchPanel.add(new AddMenu(cardLayout, switchPanel), "add");
-        switchPanel.add(new RemoveMenu(cardLayout, switchPanel), "remove");
+        switchPanel.add(new ManageMenu(cardLayout, switchPanel), "manage");
         switchPanel.add(new ReturnMenu(cardLayout, switchPanel), "return");
         switchPanel.add(new AboutMenu(cardLayout, switchPanel), "about");
 

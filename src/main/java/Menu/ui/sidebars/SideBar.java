@@ -12,7 +12,7 @@ import net.miginfocom.swing.MigLayout;
 import com.formdev.flatlaf.FlatClientProperties;
 
 public abstract class SideBar extends JPanel implements ActionListener {
-    protected JButton dashBtn, bookBtn, userBtn, issuedBtn, addBtn, removeBtn, returnBtn, aboutBtn, logBtn;
+    protected JButton dashBtn, bookBtn, userBtn, issuedBtn, manageBtn, removeBtn, returnBtn, aboutBtn, logBtn;
     protected JLabel profileLabel;
     protected CardLayout cardLayout;
     protected JPanel switchPanel;
@@ -71,12 +71,8 @@ public abstract class SideBar extends JPanel implements ActionListener {
             cardLayout.show(switchPanel, "issued");
         }
 
-        else if (e.getSource() == addBtn) {
-            cardLayout.show(switchPanel, "add");
-        }
-
-        else if (e.getSource() == removeBtn) {
-            cardLayout.show(switchPanel, "remove");
+        else if (e.getSource() == manageBtn) {
+            cardLayout.show(switchPanel, "manage");
         }
 
         else if (e.getSource() == returnBtn) {

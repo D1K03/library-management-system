@@ -20,7 +20,7 @@ public class UserDAO {
         return false;
     }
 
-    public void addUser(String firstName, String lastName, String email, String role, Date registrationDate, String password) throws SQLException {
+    public void addUser(String firstName, String lastName, String email, String role, Timestamp registrationDate, String password) throws SQLException {
         String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
         String query = "INSERT INTO users (forename, surname, email, role, reg_date, password_hash) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -29,7 +29,7 @@ public class UserDAO {
             addUserData.setString(2, lastName);
             addUserData.setString(3, email);
             addUserData.setString(4, role);
-            addUserData.setDate(5, registrationDate);
+            addUserData.setTimestamp(5, registrationDate);
             addUserData.setString(6, passwordHash);
             addUserData.executeUpdate();
         }

@@ -1,6 +1,7 @@
 package Menu.ui.menupanels;
 
 import Menu.tables.BookTable;
+import Service.BookService;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import javax.swing.*;
@@ -8,17 +9,21 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class BooksMenu extends JPanel implements ActionListener {
     private CardLayout cardLayout;
     private JPanel switchPanel;
     private BookTable table;
+    private BookService bookService;
 
     public BooksMenu(CardLayout cardLayout, JPanel switchPanel) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
+        bookService = new BookService();
         createBorrow();
-        addSampleData();
+        loadBooksData();
+
     }
 
     public void createBorrow() {
@@ -38,14 +43,14 @@ public class BooksMenu extends JPanel implements ActionListener {
 
     }
 
-    private void addSampleData() {
-        // Access the DefaultTableModel and add rows
-        DefaultTableModel model = table.getModel();
-
-        // Add sample data (rows) to the table
-        model.addRow(new Object[]{"1", "To Kill a Mockingbird", "Harper Lee", "J.B. Lippincott & Co.", "Fiction", "Yes", "No"});
-        model.addRow(new Object[]{"2", "1984", "George Orwell", "Secker & Warburg", "Dystopian", "No", "Yes"});
-        model.addRow(new Object[]{"3", "Moby Dick", "Herman Melville", "Harper & Brothers", "Adventure", "Yes", "No"});
+    private void loadBooksData() {
+        List<String[]> books = bookService.getAllBooks();
+        if (books != null) {
+            DefaultTableModel model = table.getModel();
+            for (String[] book : books) {
+                model.addRow(book);
+            }
+        }
     }
 
     @Override

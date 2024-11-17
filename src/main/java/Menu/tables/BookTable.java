@@ -13,7 +13,7 @@ public class BookTable extends JTable {
     }
 
     private void createBTable() {
-        String[] columnHeader = {"Book ID", "Title", "Author", "Publisher", "Category", "Available", "Borrowed"};
+        String[] columnHeader = {"Book ID", "Title", "Author", "Publisher", "Category", "ISBN", "Available", "Borrowed"};
         model = new DefaultTableModel(null, columnHeader);
         setModel(model);
 

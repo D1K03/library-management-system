@@ -7,11 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AddMenu extends JPanel implements ActionListener {
+public class ManageMenu extends JPanel implements ActionListener {
     private CardLayout cardLayout;
     private JPanel switchPanel;
 
-    public AddMenu(CardLayout cardLayout, JPanel switchPanel) {
+    public ManageMenu(CardLayout cardLayout, JPanel switchPanel) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
         createAdd();
@@ -24,7 +24,7 @@ public class AddMenu extends JPanel implements ActionListener {
                 "[dark]background:lighten(@background, 10%)"
         );
 
-        JLabel headerLabel = new JLabel("Add Books", SwingConstants.CENTER);
+        JLabel headerLabel = new JLabel("Manage Books", SwingConstants.CENTER);
         headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         add(headerLabel, BorderLayout.NORTH);
 
