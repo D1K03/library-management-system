@@ -44,10 +44,12 @@ public class Home extends JPanel implements ActionListener {
         );
         switchPanel.add(new Dashboard(cardLayout, switchPanel),"dashboard");
         switchPanel.add(new BooksMenu(cardLayout, switchPanel), "books");
-        switchPanel.add(new Members(cardLayout, switchPanel), "members");
-        switchPanel.add(new Issued(cardLayout, switchPanel), "issued");
+        switchPanel.add(new MembersMenu(cardLayout, switchPanel), "members");
+        switchPanel.add(new IssuedMenu(cardLayout, switchPanel), "issued");
+        switchPanel.add(new UserBooksMenu(cardLayout, switchPanel), "userbooks");
         switchPanel.add(new ManageMenu(cardLayout, switchPanel), "manage");
         switchPanel.add(new ReturnMenu(cardLayout, switchPanel), "return");
+        switchPanel.add(new AddRoleMenu(cardLayout, switchPanel), "edit");
         switchPanel.add(new AboutMenu(cardLayout, switchPanel), "about");
 
         if (userRole.equals("admin")) {

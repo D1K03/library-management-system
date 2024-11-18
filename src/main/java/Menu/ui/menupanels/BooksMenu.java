@@ -14,7 +14,7 @@ import java.util.List;
 public class BooksMenu extends JPanel implements ActionListener {
     private CardLayout cardLayout;
     private JPanel switchPanel;
-    private BookTable table;
+    private BookTable BTable;
     private BookService bookService;
 
     public BooksMenu(CardLayout cardLayout, JPanel switchPanel) {
@@ -37,8 +37,8 @@ public class BooksMenu extends JPanel implements ActionListener {
         headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         add(headerLabel, BorderLayout.NORTH);
 
-        table = new BookTable();
-        JScrollPane scrollPane = new JScrollPane(table);
+        BTable = new BookTable();
+        JScrollPane scrollPane = new JScrollPane(BTable);
         add(scrollPane, BorderLayout.CENTER);
 
     }
@@ -46,7 +46,7 @@ public class BooksMenu extends JPanel implements ActionListener {
     private void loadBooksData() {
         List<String[]> books = bookService.getAllBooks();
         if (books != null) {
-            DefaultTableModel model = table.getModel();
+            DefaultTableModel model = BTable.getModel();
             for (String[] book : books) {
                 model.addRow(book);
             }

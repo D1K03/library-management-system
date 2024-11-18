@@ -4,11 +4,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class BookTable extends JTable {
-    private JTable books;
     private DefaultTableModel model;
 
     public BookTable() {
-        String[][] data = {};
         createBTable();
     }
 

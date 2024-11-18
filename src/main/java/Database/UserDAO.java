@@ -3,6 +3,8 @@ package Database;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
 
@@ -68,5 +70,26 @@ public class UserDAO {
             }
         }
         return 0;
+    }
+
+    public List<String[]> getAllUsers() throws SQLException {
+        List<String[]> users = new ArrayList<>();
+        String query = "SELECT user_id, forename, surname, email, role, reg_date FROM users";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement retrieveUsers = conn.prepareStatement(query);
+             ResultSet rs = retrieveUsers.executeQuery()) {
+            while (rs.next()) {
+                String[] user = {
+                        rs.getString("user_id"),
+                        rs.getString("forename"),
+                        rs.getString("surname"),
+                        rs.getString("email"),
+                        rs.getString("role"),
+                        rs.getString("reg_date"),
+                };
+                users.add(user);
+            }
+        }
+        return users;
     }
 }

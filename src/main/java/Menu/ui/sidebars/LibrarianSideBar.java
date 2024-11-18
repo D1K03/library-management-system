@@ -20,15 +20,15 @@ public class LibrarianSideBar extends SideBar {
         bookBtn.addActionListener(this);
         add(bookBtn, "growx, wrap, height 50");
 
-        issuedBtn = new JButton("Issued Books");
-        issuedBtn.addActionListener(this);
-        add(issuedBtn, "growx, wrap, height 50");
-
         manageBtn = new JButton("Manage Books");
         manageBtn.addActionListener(this);
         add(manageBtn, "growx, wrap, height 50");
 
-        returnBtn = new JButton("Return Books");
+        issuedBtn = new JButton("Issued Books");
+        issuedBtn.addActionListener(this);
+        add(issuedBtn, "growx, wrap, height 50");
+
+        returnBtn = new JButton("Returned Books");
         returnBtn.addActionListener(this);
         add(returnBtn, "growx, wrap, height 50");
 

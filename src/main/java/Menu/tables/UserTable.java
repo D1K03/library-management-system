@@ -3,17 +3,20 @@ package Menu.tables;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class UserTable {
-    private JTable users;
+public class UserTable extends JTable {
     private DefaultTableModel model;
 
-    UserTable() {
+    public UserTable() {
         createUTable();
     }
 
     private void createUTable() {
-        String[] columnHeader = {"User ID", "First Name", "Last Name", "Email Address", "Borrowed", "Returned", "Overdue"};
+        String[] columnHeader = {"User ID", "First Name", "Last Name", "Email Address", "Role", "Registration Date"};
         model = new DefaultTableModel(null, columnHeader);
-        users = new JTable(model);
+        setModel(model);
+    }
+
+    public DefaultTableModel getModel() {
+        return model;
     }
 }

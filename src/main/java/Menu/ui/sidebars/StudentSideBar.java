@@ -20,13 +20,9 @@ public class StudentSideBar extends SideBar {
         bookBtn.addActionListener(this);
         add(bookBtn, "growx, wrap, height 50");
 
-        issuedBtn = new JButton("Issued Books");
-        issuedBtn.addActionListener(this);
-        add(issuedBtn, "growx, wrap, height 50");
-
-        returnBtn = new JButton("Return Books");
-        returnBtn.addActionListener(this);
-        add(returnBtn, "growx, wrap, height 50");
+        rentBtn = new JButton("My Books");
+        rentBtn.addActionListener(this);
+        add(rentBtn, "growx, wrap, height 50");
 
         aboutBtn = new JButton("About Author");
         aboutBtn.addActionListener(this);

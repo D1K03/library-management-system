@@ -4,6 +4,7 @@ import Database.DBConnection;
 import Database.UserDAO;
 
 import java.sql.*;
+import java.util.List;
 
 public class UserService {
     private UserDAO userData = new UserDAO();
@@ -53,5 +54,14 @@ public class UserService {
             }
         }
         return 0;
+    }
+
+    public List<String[]> getAllUsers() {
+        try {
+            return userData.getAllUsers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
