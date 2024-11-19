@@ -25,10 +25,11 @@ public class Home extends JPanel implements ActionListener {
     private int userId;
 
 
-    public Home(CardLayout cardLayout, JPanel switchPanel, Main main, String userRole) {
+    public Home(CardLayout cardLayout, JPanel switchPanel, Main main, String userRole, int userId) {
         this.main = main;
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
+        this.userId = userId;
         userService = new UserService();
         createHome(userRole);
     }
@@ -43,10 +44,10 @@ public class Home extends JPanel implements ActionListener {
                 "[dark]background:lighten(@background, 10%)"
         );
         switchPanel.add(new Dashboard(cardLayout, switchPanel),"dashboard");
-        switchPanel.add(new BooksMenu(cardLayout, switchPanel), "books");
+        switchPanel.add(new BooksMenu(cardLayout, switchPanel, userId), "books");
         switchPanel.add(new MembersMenu(cardLayout, switchPanel), "members");
         switchPanel.add(new IssuedMenu(cardLayout, switchPanel), "issued");
-        switchPanel.add(new UserBooksMenu(cardLayout, switchPanel), "userbooks");
+        switchPanel.add(new UserBooksMenu(cardLayout, switchPanel, userId), "userbooks");
         switchPanel.add(new ManageMenu(cardLayout, switchPanel), "manage");
         switchPanel.add(new ReturnMenu(cardLayout, switchPanel), "return");
         switchPanel.add(new AddRoleMenu(cardLayout, switchPanel), "edit");

@@ -110,8 +110,9 @@ public class SignUp extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(this, "User with Email is already Registered");
             } else {
                 userService.addUser(forename, surname, email, role, registrationDate, password);
+                int userId = userService.getUserIdByEmail(email);
                 resetSignUpData();
-                main.openHomePanel(role);
+                main.openHomePanel(role, userId);
                 cardLayout.show(switchPanel, "home");
             }
         } else if (e.getSource() == oldMember) {

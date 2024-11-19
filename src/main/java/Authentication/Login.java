@@ -90,14 +90,14 @@ public class Login extends JPanel implements ActionListener {
 
             if (userService.checkUserCredentials(email, password)) {
                 String userPosition = userService.getUserRole(email);
+                int userId = userService.getUserIdByEmail(email);
                 if (!rememberMe.isSelected()) {
                     resetLoginData();
                 }
-                main.openHomePanel(userPosition);
+                main.openHomePanel(userPosition, userId);
                 cardLayout.show(switchPanel, "home");
             } else {
-                //Not Signed Up
-                System.out.println("Incorrect Email or Password");
+                JOptionPane.showMessageDialog(this, "Incorrect Email or Password");
             }
         }
 

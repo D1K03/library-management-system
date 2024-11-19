@@ -58,5 +58,9 @@ public class ResetPassword extends JPanel implements ActionListener {
         if (e.getSource() == returnLogin) {
             cardLayout.show(switchPanel, "login");
         }
+
+        else if (e.getSource() == resetButton) {
+            JOptionPane.showMessageDialog(this, "Email for Password Recovery has been Sent.");
+        }
     }
 }

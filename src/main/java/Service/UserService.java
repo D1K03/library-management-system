@@ -64,4 +64,13 @@ public class UserService {
             return null;
         }
     }
+
+    public int getUserIdByEmail(String email) {
+        try {
+            return userData.getUserIdByEmail(email);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }

@@ -5,7 +5,7 @@ import com.formdev.flatlaf.fonts.roboto_mono.FlatRobotoMonoFont;
 import net.miginfocom.swing.MigLayout;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
-
+import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.*;
 import java.awt.*;
 
@@ -38,8 +38,8 @@ public class Main extends JFrame {
         add(switchPanel, "grow");
     }
 
-    public void openHomePanel(String userRole) {
-        switchPanel.add(new Home(cardLayout, switchPanel, this, userRole), "home");
+    public void openHomePanel(String userRole, int userId) {
+        switchPanel.add(new Home(cardLayout, switchPanel, this, userRole, userId), "home");
     }
 
     public void showPanel(String panelName) {

@@ -28,6 +28,7 @@ public class Dashboard extends JPanel implements ActionListener {
         createDash();
         getUserCount();
         getBookCount();
+        getIssuedCount();
     }
 
     private void createDash() {
@@ -73,6 +74,16 @@ public class Dashboard extends JPanel implements ActionListener {
         } catch (SQLException e) {
             e.printStackTrace();
             tBooksLabel.setText("Error");
+        }
+    }
+
+    private void getIssuedCount() {
+        try {
+            int totalRented = bookService.countIssued();
+            issuedLabel.setText(String.valueOf(totalRented));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            issuedLabel.setText("Error");
         }
     }
 
