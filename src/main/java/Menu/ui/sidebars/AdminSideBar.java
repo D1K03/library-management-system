@@ -10,6 +10,9 @@ public class AdminSideBar extends SideBar {
         super(cardLayout, switchPanel, main);
     }
 
+    /**
+     * Polymorphism of SideBar, createButtons method is changed to be tailored to users with admin permissions
+     */
     @Override
     protected void createButtons() {
         dashBtn = new JButton("Dashboard");
@@ -36,7 +39,7 @@ public class AdminSideBar extends SideBar {
         returnBtn.addActionListener(this);
         add(returnBtn, "growx, wrap, height 50");
 
-        editRoleBtn = new JButton("Edit Roles");
+        editRoleBtn = new JButton("Role Manager");
         editRoleBtn.addActionListener(this);
         add(editRoleBtn, "growx, wrap, height 50");
 

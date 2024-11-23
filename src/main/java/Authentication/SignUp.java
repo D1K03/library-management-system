@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import Menu.ui.Home;
+import Menu.ui.menupanels.Dashboard;
 import Service.UserService;
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
@@ -96,6 +97,10 @@ public class SignUp extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * On successful sign up will open the home panel
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == signupButton && userPassword.getText().equals(confirmPassword.getText())) {
@@ -114,6 +119,12 @@ public class SignUp extends JPanel implements ActionListener {
                 resetSignUpData();
                 main.openHomePanel(role, userId);
                 cardLayout.show(switchPanel, "home");
+                for (Component comp : switchPanel.getComponents()) {
+                    if (comp instanceof Dashboard dashboard) {
+                        dashboard.refreshUserCount();
+                        break;
+                    }
+                }
             }
         } else if (e.getSource() == oldMember) {
             resetSignUpData();

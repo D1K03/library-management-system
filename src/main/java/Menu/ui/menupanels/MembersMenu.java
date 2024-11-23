@@ -52,6 +52,12 @@ public class MembersMenu extends JPanel implements ActionListener {
         }
     }
 
+    public void refreshUserTable() {
+        DefaultTableModel model = UTable.getModel();
+        model.setRowCount(0);
+        loadUsersData();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 

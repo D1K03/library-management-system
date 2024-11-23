@@ -2,6 +2,7 @@ package Menu.ui.menupanels;
 
 import Menu.tables.RentDataTable;
 import Service.BookService;
+import Service.RentService;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import javax.swing.*;
@@ -16,11 +17,13 @@ public class IssuedMenu extends JPanel implements ActionListener {
     private JPanel switchPanel;
     private RentDataTable allRentTable;
     private BookService bookService;
+    private RentService rentService;
 
     public IssuedMenu(CardLayout cardLayout, JPanel switchPanel) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
-        this.bookService = new BookService();
+        bookService = new BookService();
+        rentService = new RentService();
         createIssued();
         loadRentData();
     }
@@ -42,10 +45,11 @@ public class IssuedMenu extends JPanel implements ActionListener {
     }
 
     private void loadRentData() {
-        List<String[]> rentRecords = bookService.getAllRentRecords();
-        if (rentRecords != null) {
+        rentService.updateOverdueStatus();
+        List<String[]> issuedRecords = rentService.getIssuedRecords();
+        if (issuedRecords != null) {
             DefaultTableModel model = allRentTable.getModel();
-            for (String[] rentRecord : rentRecords) {
+            for (String[] rentRecord : issuedRecords) {
                 rentRecord[7] = rentRecord[7].equals("0") ? "false" : "true";
                 model.addRow(rentRecord);
             }

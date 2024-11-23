@@ -11,6 +11,9 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import net.miginfocom.swing.MigLayout;
 import com.formdev.flatlaf.FlatClientProperties;
 
+/**
+ * Abstract class so cannot be instantiated
+ */
 public abstract class SideBar extends JPanel implements ActionListener {
     protected JButton dashBtn, bookBtn, userBtn, issuedBtn, manageBtn, removeBtn, returnBtn, aboutBtn, logBtn, rentBtn, editRoleBtn;
     protected JLabel profileLabel;
@@ -38,6 +41,9 @@ public abstract class SideBar extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(200, getHeight()));
     }
 
+    /**
+     * Protected and can only be accessed by child classes
+     */
     protected abstract void createButtons();
 
     private void createProfile() {

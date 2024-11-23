@@ -47,49 +47,20 @@ public class BookService {
         }
     }
 
-    public void addRentRecord(int userId, String bookId, Timestamp borrowedDate, Timestamp dueDate, Timestamp returnedDate, boolean overdue) {
-        try {
-            bookData.addRentRecord(userId, bookId, borrowedDate, dueDate, returnedDate, overdue);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public List<String[]> getAllRentRecords() {
-        try {
-            return bookData.getAllRentRecords();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public List<String[]> getRentsByUserId(int userId) {
-        try {
-            return bookData.getRentsByUserId(userId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    public int countIssued() throws SQLException {
-        String query = "SELECT COUNT(*) AS total FROM rents";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement retrieveRented = conn.prepareStatement(query)) {
-            ResultSet rs = retrieveRented.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("total");
-            }
-        }
-        return 0;
-    }
-
     public boolean canRentBook(String bookId) {
         try {
             return bookData.canRentBook(bookId);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public void addBook(String bookTitle, String bookAuthor, String bookPublisher, String bookCategory, String ISBN, int isAvailable, int isBorrowed) {
+        try {
+            bookData.addBook(bookTitle, bookAuthor, bookPublisher, bookCategory, ISBN, isAvailable, isBorrowed);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

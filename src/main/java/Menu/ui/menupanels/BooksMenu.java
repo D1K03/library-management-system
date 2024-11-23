@@ -2,6 +2,7 @@ package Menu.ui.menupanels;
 
 import Menu.tables.BookTable;
 import Service.BookService;
+import Service.RentService;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import javax.swing.*;
@@ -19,13 +20,17 @@ public class BooksMenu extends JPanel implements ActionListener {
     private BookTable BTable;
     private JButton rentBtn;
     private BookService bookService;
+    private RentService rentService;
     private int userId;
+    private String userRole;
 
-    public BooksMenu(CardLayout cardLayout, JPanel switchPanel, int userId) {
+    public BooksMenu(CardLayout cardLayout, JPanel switchPanel, int userId, String userRole) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
         this.userId = userId;
+        this.userRole = userRole;
         bookService = new BookService();
+        rentService = new RentService();
         createBorrow();
         loadBooksData();
 
@@ -46,21 +51,35 @@ public class BooksMenu extends JPanel implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(BTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        rentBtn = new JButton("Rent");
+        rentBtn = new JButton("Rent Book");
         rentBtn.addActionListener(this);
         add(rentBtn, BorderLayout.SOUTH);
+
+        if (userRole.equals("admin") || userRole.equals("librarian")){
+            rentBtn.setVisible(false);
+        }
     }
 
-    private void loadBooksData() {
+    /**
+     * Sets the book records as rows for BookTable template that was created
+     * Displays on panel
+     */
+    public void loadBooksData() {
+        DefaultTableModel model = BTable.getModel();
+        model.setRowCount(0);
         List<String[]> books = bookService.getAllBooks();
         if (books != null) {
-            DefaultTableModel model = BTable.getModel();
             for (String[] book : books) {
                 model.addRow(book);
             }
         }
     }
 
+    /**
+     * Checks whether there have not been more books borrowed than available before user can rent
+     * When renting a limit of 14 days is set and record is added to database
+     * @param bookId primary key of books to uniquely identify them as part of the library
+     */
     private void rentBook(String bookId) {
         if (bookService.canRentBook(bookId)) {
             String[] bookDetails = bookService.getBookDetails(bookId);
@@ -70,21 +89,32 @@ public class BooksMenu extends JPanel implements ActionListener {
                 Timestamp dueDate = Timestamp.valueOf(LocalDateTime.now().plusDays(14)); // Example due date
                 Timestamp returnedDate = null;
                 boolean overdue = false;
-
-                bookService.addRentRecord(userId, bookId, borrowedDate, dueDate, returnedDate, overdue);
-                bookService.updateBorrowedCount(bookId);
-
-                for (Component comp : switchPanel.getComponents()) {
-                    if (comp instanceof UserBooksMenu) {
-                        UserBooksMenu userBooksMenu = (UserBooksMenu) comp;
-                        userBooksMenu.loadUserRentData();
-                        break;
+                int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to rent " + title, "Confirm Message", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    rentService.addRentRecord(userId, bookId, borrowedDate, dueDate, returnedDate, overdue);
+                    bookService.updateBorrowedCount(bookId);
+                    //Minor Bug: Borrowed not updating Live
+                    for (Component comp : switchPanel.getComponents()) {
+                        if (comp instanceof UserBooksMenu userBooksMenu) {
+                            userBooksMenu.loadUserRentData();
+                            break;
+                        }
                     }
+                    JOptionPane.showMessageDialog(this, "Rent Successful");
                 }
             }
         } else {
             JOptionPane.showMessageDialog(this, "This book is currently out of stock.");
         }
+    }
+
+    /**
+     * Updates table so new changes to BookTable can be seen
+     */
+    public void refreshBookTable() {
+        DefaultTableModel model = BTable.getModel();
+        model.setRowCount(0);
+        loadBooksData();
     }
 
     @Override
@@ -94,6 +124,13 @@ public class BooksMenu extends JPanel implements ActionListener {
             if (selectedRow != -1) {
                 String bookId = (String) BTable.getValueAt(selectedRow, 0);
                 rentBook(bookId);
+                //Minor Bug: Refreshing Issued not refreshing Live
+                for (Component comp : switchPanel.getComponents()) {
+                    if (comp instanceof Dashboard dashboard) {
+                        dashboard.refreshIssuedCount();
+                        break;
+                    }
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a book to rent");
             }

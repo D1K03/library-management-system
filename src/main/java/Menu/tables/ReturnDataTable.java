@@ -3,19 +3,19 @@ package Menu.tables;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class BookTable extends JTable {
+public class ReturnDataTable extends JTable {
     private DefaultTableModel model;
 
-    public BookTable() {
-        createBTable();
+    public ReturnDataTable() {
+        createRDTable();
     }
 
     /**
-     * Creates Template for BookTable
-     * Headers are set for the book table database records
+     * Creates Template for ReturnDataTable
+     * Headers are set to hold data from all three tables
      */
-    private void createBTable() {
-        String[] columnHeader = {"Book ID", "Title", "Author", "Publisher", "Category", "ISBN", "Available", "Borrowed"};
+    private void createRDTable() {
+        String[] columnHeader = {"User ID", "First Name", "Last Name", "Book ID", "Title", "Borrowed Date", "Due Date", "Returned Date"};
         model = new DefaultTableModel(null, columnHeader) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -23,7 +23,6 @@ public class BookTable extends JTable {
             }
         };
         setModel(model);
-
     }
 
     public DefaultTableModel getModel() {

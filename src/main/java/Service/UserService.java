@@ -4,10 +4,12 @@ import Database.DBConnection;
 import Database.UserDAO;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
     private UserDAO userData = new UserDAO();
+
 
     public boolean checkUserCredentials(String email, String password) {
         try {
@@ -71,6 +73,23 @@ public class UserService {
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    public List<String> getUserIdAndName() {
+        try {
+            return userData.getUserIdAndName();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public void updateUserRole(int userId, String role) {
+        try {
+            userData.updateUserRole(userId, role);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

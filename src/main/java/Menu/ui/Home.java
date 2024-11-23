@@ -23,17 +23,24 @@ public class Home extends JPanel implements ActionListener {
     private Main main;
     private UserService userService;
     private int userId;
+    private ReturnMenu returnMenu;
 
 
-    public Home(CardLayout cardLayout, JPanel switchPanel, Main main, String userRole, int userId) {
+    public Home(CardLayout cardLayout, JPanel switchPanel, Main main, String userRole, int userId, ReturnMenu returnMenu) {
         this.main = main;
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
         this.userId = userId;
+        this.returnMenu = returnMenu;
         userService = new UserService();
         createHome(userRole);
     }
 
+    /**
+     *  Panel acts as a frame for all the panels for users after authentication
+     *  Panels are adding on a switchPanel so that they can be alternated between
+     * @param userRole user's role represents their permissions
+     */
     private void createHome(String userRole) {
         setLayout(new BorderLayout());
 
@@ -43,14 +50,19 @@ public class Home extends JPanel implements ActionListener {
                 "[light]background:darken(@background, 10%);" +
                 "[dark]background:lighten(@background, 10%)"
         );
+
+        BooksMenu booksMenu = new BooksMenu(cardLayout, switchPanel, userId, userRole);
+        ManageMenu manageMenu = new ManageMenu(cardLayout, switchPanel, booksMenu);
+        MembersMenu membersMenu = new MembersMenu(cardLayout, switchPanel);
+
         switchPanel.add(new Dashboard(cardLayout, switchPanel),"dashboard");
-        switchPanel.add(new BooksMenu(cardLayout, switchPanel, userId), "books");
-        switchPanel.add(new MembersMenu(cardLayout, switchPanel), "members");
+        switchPanel.add(booksMenu, "books");
+        switchPanel.add(membersMenu, "members");
         switchPanel.add(new IssuedMenu(cardLayout, switchPanel), "issued");
-        switchPanel.add(new UserBooksMenu(cardLayout, switchPanel, userId), "userbooks");
-        switchPanel.add(new ManageMenu(cardLayout, switchPanel), "manage");
-        switchPanel.add(new ReturnMenu(cardLayout, switchPanel), "return");
-        switchPanel.add(new AddRoleMenu(cardLayout, switchPanel), "edit");
+        switchPanel.add(new UserBooksMenu(cardLayout, switchPanel, userId, returnMenu, membersMenu), "userbooks");
+        switchPanel.add(manageMenu, "manage");
+        switchPanel.add(returnMenu, "return");
+        switchPanel.add(new AddRoleMenu(cardLayout, switchPanel, membersMenu), "edit");
         switchPanel.add(new AboutMenu(cardLayout, switchPanel), "about");
 
         if (userRole.equals("admin")) {

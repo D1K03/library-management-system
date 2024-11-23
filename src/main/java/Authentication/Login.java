@@ -66,6 +66,10 @@ public class Login extends JPanel implements ActionListener {
         loginPanel.add(newMember);
     }
 
+    /**
+     * Panels are created mostly using MigLayout or BorderLayout
+     * FlatLaf is used for greater customisation, allowing for the ability to adjust panel shade or radius
+     */
     private void createPanel() {
         setLayout(new MigLayout("fill, insets 20", "[center]", "[center]"));
         loginPanel = new JPanel(new MigLayout("wrap, insets 35 45", "fill, 250:280"));
@@ -76,12 +80,20 @@ public class Login extends JPanel implements ActionListener {
         add(loginPanel);
     }
 
+    /**
+     * Clears login information unless remember me has been checked
+     */
     private void resetLoginData() {
         userEmail.setText("");
         userPassword.setText("");
 
     }
 
+    /**
+     * Adds responsiveness to the UI
+     * Swaps to panel button is pressed
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
@@ -104,6 +116,7 @@ public class Login extends JPanel implements ActionListener {
         else if (e.getSource() == newMember) {
             if (!rememberMe.isSelected()) {
                 resetLoginData();
+
             }
             cardLayout.show(switchPanel, "signup");
         }
