@@ -70,8 +70,9 @@ public class ManageMenu extends JPanel implements ActionListener {
 
         JLabel headerLabel = new JLabel("Manage Books", SwingConstants.CENTER);
         headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        headerLabel.setOpaque(true);
+        headerLabel.setBackground(Color.decode("#383838"));
         add(headerLabel, BorderLayout.NORTH);
-
     }
 
     private void resetBookField() {

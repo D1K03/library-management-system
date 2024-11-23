@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 public class AddRoleMenu extends JPanel implements ActionListener {
     private CardLayout cardLayout;
-    private JPanel switchPanel, rolePanel;
+    private JPanel switchPanel, rolePanel, headerPanel;
     private JComboBox userDrop, roleDrop;
     private JButton updateBtn;
     private UserService userService;
@@ -30,6 +30,7 @@ public class AddRoleMenu extends JPanel implements ActionListener {
      */
     public void createRole() {
         setLayout(new MigLayout("fill, insets 20", "[center]", "[center]"));
+
         rolePanel = new JPanel(new MigLayout("wrap, insets 35 45", "fill, 250:280"));
         rolePanel.putClientProperty(FlatClientProperties.STYLE, "arc:20;" +
                 "[light]background:darken(@background, 5%);" +
@@ -39,6 +40,8 @@ public class AddRoleMenu extends JPanel implements ActionListener {
 
         JLabel headerLabel = new JLabel("Role Manager", SwingConstants.CENTER);
         headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        headerLabel.setOpaque(true);
+        headerLabel.setBackground(Color.decode("#383838"));
         add(headerLabel, BorderLayout.NORTH);
 
         JLabel title = new JLabel("Edit Roles");
