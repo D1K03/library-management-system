@@ -1,6 +1,8 @@
 package Menu.ui.sidebars;
 
 import Authentication.Main;
+import com.formdev.flatlaf.FlatClientProperties;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,23 +15,20 @@ public class StudentSideBar extends SideBar {
     @Override
     protected void createButtons() {
         dashBtn = new JButton("Dashboard");
-        dashBtn.addActionListener(this);
-        add(dashBtn, "growx, wrap, height 50");
-
         bookBtn = new JButton("View Books");
-        bookBtn.addActionListener(this);
-        add(bookBtn, "growx, wrap, height 50");
-
         rentBtn = new JButton("My Books");
-        rentBtn.addActionListener(this);
-        add(rentBtn, "growx, wrap, height 50");
-
         aboutBtn = new JButton("About Author");
-        aboutBtn.addActionListener(this);
-        add(aboutBtn, "growx, wrap, height 50");
-
         logBtn = new JButton("Log Out");
-        logBtn.addActionListener(this);
-        add(logBtn, "growx, wrap, height 50, gapy 125");
+
+        JButton[] arrBtn = {dashBtn, bookBtn, rentBtn, aboutBtn, logBtn};
+
+        for (JButton btn : arrBtn) {
+            btn.addActionListener(this);
+            btn.setBorder(BorderFactory.createEmptyBorder());
+            btn.setOpaque(false);
+            add(btn, "growx, wrap, height 50");
+        }
+
+        add(logBtn, "growx, wrap, height 50, gapy 325");
     }
 }
