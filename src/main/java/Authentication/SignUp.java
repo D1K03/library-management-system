@@ -125,6 +125,7 @@ public class SignUp extends JPanel implements ActionListener {
                         break;
                     }
                 }
+                JOptionPane.showMessageDialog(this, "Sign Up Successful");
             }
         } else if (e.getSource() == oldMember) {
             resetSignUpData();

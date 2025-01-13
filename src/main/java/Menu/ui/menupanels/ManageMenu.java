@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class ManageMenu extends JPanel implements ActionListener {
     private CardLayout cardLayout;
@@ -92,11 +96,20 @@ public class ManageMenu extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addBtn) {
+            String isbnName = bookISBN.getText();
+            String apiURL = "https://openlibrary.org/api/books?bibkeys=ISBN:" + isbnName + "&format=json&jscmd=data";
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(apiURL))
+                    .GET()
+                    .build();
+
+            System.out.println(apiURL);
+
             String titleName = bookTitle.getText();
             String authorName = bookAuthor.getText();
             String publishName = bookPublish.getText();
             String categoryName = bookCategory.getText();
-            String isbnName = bookISBN.getText();
             int stockValue = Integer.parseInt(bookAvailable.getText());
             int borrowedValue = 0;
 
