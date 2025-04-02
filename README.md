@@ -1,5 +1,5 @@
 # library-management-system
-Built w/ Maven, FlatLaf, SQL &amp; JSalamander
+Built w/ Java Swing with FlatLaf Library alongside MySQL, stored in a Docker Container.
 
 Authentication 
 
