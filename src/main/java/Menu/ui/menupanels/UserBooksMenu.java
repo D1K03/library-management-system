@@ -1,5 +1,6 @@
 package Menu.ui.menupanels;
 
+import Menu.tables.BookTable;
 import Menu.tables.RentDataTable;
 import Menu.tables.UserBooksTable;
 import Service.BookService;
@@ -20,19 +21,20 @@ public class UserBooksMenu extends JPanel implements ActionListener {
     private JPanel switchPanel;
     private UserBooksTable userBooksTable;
     private RentDataTable RDTable;
+    private BookTable BTable;
     private BookService bookService;
     private RentService rentService;
     private JButton returnBtn;
     private int userId;
-    private ReturnMenu returnMenu;
+    private BooksMenu booksMenu;
     private MembersMenu membersMenu;
 
-    public UserBooksMenu(CardLayout cardLayout, JPanel switchPanel, int userId, ReturnMenu returnMenu, MembersMenu membersMenu) {
+    public UserBooksMenu(CardLayout cardLayout, JPanel switchPanel, int userId, MembersMenu membersMenu, BooksMenu booksMenu) {
         this.cardLayout = cardLayout;
         this.switchPanel = switchPanel;
         this.userId = userId;
-        this.returnMenu = returnMenu;
         this.membersMenu = membersMenu;
+        this.booksMenu = booksMenu;
         bookService = new BookService();
         rentService = new RentService();
         createUBooks();
@@ -80,6 +82,23 @@ public class UserBooksMenu extends JPanel implements ActionListener {
         }
     }
 
+    public void loadBooksData() {
+        DefaultTableModel model = BTable.getModel();
+        model.setRowCount(0);
+        List<String[]> books = bookService.getAllBooks();
+        if (books != null) {
+            for (String[] book : books) {
+                model.addRow(book);
+            }
+        }
+    }
+
+    public void refreshBookTable() {
+        DefaultTableModel model = BTable.getModel();
+        model.setRowCount(0);
+        loadBooksData();
+    }
+
     /**
      * Updates Return Panel if a book is returned
      */
@@ -101,9 +120,9 @@ public class UserBooksMenu extends JPanel implements ActionListener {
                 int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to return " + title, "Confirm Message", JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {
                     userBooksTable.setValueAt(returnDate.toString(), selectedRow, 4);
-                    returnMenu.addReturnRecord(String.valueOf(userId), bookId, title, borrowedDate, dueDate, returnDate.toString(), overdue);
                     rentService.updateRentRecord(userId, bookId, returnDate);
                     bookService.updateBorrowedCount(bookId);
+                    booksMenu.refreshBookTable();
                     membersMenu.refreshUserTable();
                     JOptionPane.showMessageDialog(this, "Return Successful");
                 }

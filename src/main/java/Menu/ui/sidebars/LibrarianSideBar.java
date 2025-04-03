@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LibrarianSideBar extends SideBar {
-    private JButton[] arrBtn = {dashBtn, bookBtn, userBtn, issuedBtn, manageBtn, removeBtn, returnBtn, aboutBtn, logBtn, rentBtn, editRoleBtn};
+    private JButton[] arrBtn = {dashBtn, bookBtn, userBtn, issuedBtn, manageBtn, removeBtn, aboutBtn, logBtn, rentBtn, editRoleBtn};
 
     public LibrarianSideBar(CardLayout cardLayout, JPanel switchPanel, Main main) {
         super(cardLayout, switchPanel, main);
@@ -19,11 +19,10 @@ public class LibrarianSideBar extends SideBar {
         bookBtn = new JButton("View Books");
         manageBtn = new JButton("Manage Books");
         issuedBtn = new JButton("Issued Books");
-        returnBtn = new JButton("Returned Books");
         aboutBtn = new JButton("About Author");
         logBtn = new JButton("Log Out");
 
-        JButton[] arrBtn = {dashBtn, bookBtn, manageBtn, issuedBtn, returnBtn, aboutBtn, logBtn};
+        JButton[] arrBtn = {dashBtn, bookBtn, manageBtn, issuedBtn, aboutBtn, logBtn};
 
         for (JButton btn : arrBtn) {
             btn.addActionListener(this);

@@ -45,6 +45,15 @@ public class RentService {
             return rentData.countIssued();
     }
 
+    public boolean checkRent(int userId, String bookId) {
+        try {
+            return rentData.checkRent(userId, bookId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public void updateRentRecord(int userId, String bookId, Timestamp returnDate) {
         try {
             rentData.updateRentRecord(userId, bookId, returnDate);
@@ -85,4 +94,13 @@ public class RentService {
             e.printStackTrace();
         }
     }
+
+    public void removeReturnedRentRecord(int userId, String bookId) {
+        try {
+            rentData.getReturnedRecords();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

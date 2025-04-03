@@ -20,12 +20,13 @@ public class UserService {
         }
     }
 
-    public void addUser(String firstName, String lastName, String email, String role, Timestamp registrationDate, String password) {
+    public int addUser(String firstName, String lastName, String email, String role, Timestamp registrationDate, String password) {
         try {
             userData.addUser(firstName, lastName, email, role, registrationDate, password);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     public boolean emailExists(String email) {

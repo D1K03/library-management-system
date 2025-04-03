@@ -20,7 +20,7 @@ public class RentDAO {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement checkRent = conn.prepareStatement(checkQuery);
-             PreparedStatement insertRent = conn.prepareStatement(insertQuery)) {
+             PreparedStatement insertRent    = conn.prepareStatement(insertQuery)) {
 
             checkRent.setInt(1, userId);
             checkRent.setString(2, bookId);
@@ -99,6 +99,32 @@ public class RentDAO {
     }
 
     /**
+     * Checks if a user has an active rent record for a given book.
+     * @param userId the ID of the user
+     * @param bookId the ID of the book
+     * @return true if the user currently has rented the book (and not returned it), false otherwise
+     * @throws SQLException if a database access error occurs
+     */
+    public boolean checkRent(int userId, String bookId) throws SQLException {
+        String query = "SELECT COUNT(*) FROM rents WHERE user_id = ? AND book_id = ? AND returned_date IS NULL";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, userId);
+            ps.setString(2, bookId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+    /**
      * Query to count get the amount of users who have not returned their book
      * @return amount of rents
      */
@@ -113,6 +139,30 @@ public class RentDAO {
         }
         return 0;
     }
+
+    /**
+     * Removes a rent record from the database if the book has been returned.
+     * @param userId the user's ID
+     * @param bookId the book's ID
+     * @throws SQLException if a database access error occurs
+     */
+    public void removeReturnedRentRecord(int userId, String bookId) throws SQLException {
+        String deleteQuery = "DELETE FROM rents WHERE user_id = ? AND book_id = ? AND returned_date IS NOT NULL";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(deleteQuery)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, Integer.parseInt(bookId));
+
+            int rowsDeleted = ps.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Removed " + rowsDeleted + " record(s) for userId " + userId + " and bookId " + bookId);
+            } else {
+                System.out.println("No record removed. Either no matching record exists or the book has not been returned yet.");
+            }
+        }
+    }
+
 
     /**
      * Query to returned date after successfully returning book

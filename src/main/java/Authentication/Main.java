@@ -1,7 +1,6 @@
 package Authentication;
 
 import Menu.ui.Home;
-import Menu.ui.menupanels.ReturnMenu;
 import com.formdev.flatlaf.fonts.roboto_mono.FlatRobotoMonoFont;
 import net.miginfocom.swing.MigLayout;
 import com.formdev.flatlaf.FlatLaf;
@@ -13,7 +12,6 @@ import java.awt.*;
 public class Main extends JFrame {
     private CardLayout cardLayout;
     private JPanel switchPanel;
-    private ReturnMenu returnMenu;
 
     public Main() {
         createFrame();
@@ -46,8 +44,7 @@ public class Main extends JFrame {
      * @param userId primary key of user to uniquely identify them
      */
     public void openHomePanel(String userRole, int userId) {
-        returnMenu = new ReturnMenu(cardLayout, switchPanel);
-        switchPanel.add(new Home(cardLayout, switchPanel, this, userRole, userId, returnMenu), "home");
+        switchPanel.add(new Home(cardLayout, switchPanel, this, userRole, userId), "home");
     }
 
     /**

@@ -87,11 +87,15 @@ public class BooksMenu extends JPanel implements ActionListener {
                 String title = bookDetails[1];
                 Timestamp borrowedDate = Timestamp.valueOf(LocalDateTime.now());
                 Timestamp dueDate = Timestamp.valueOf(LocalDateTime.now().plusDays(14)); // Example due date
-                Timestamp returnedDate = null;
                 boolean overdue = false;
                 int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to rent " + title, "Confirm Message", JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {
-                    rentService.addRentRecord(userId, bookId, borrowedDate, dueDate, returnedDate, overdue);
+                    if (rentService.checkRent(userId, bookId)) {
+                        rentService.updateRentRecord(userId, bookId, null);
+                    } else {
+                        rentService.addRentRecord(userId, bookId, borrowedDate, dueDate, null, overdue);
+                    }
+
                     bookService.updateBorrowedCount(bookId);
                     //Minor Bug: Borrowed not updating Live
                     for (Component comp : switchPanel.getComponents()) {
@@ -124,6 +128,7 @@ public class BooksMenu extends JPanel implements ActionListener {
             if (selectedRow != -1) {
                 String bookId = (String) BTable.getValueAt(selectedRow, 0);
                 rentBook(bookId);
+                refreshBookTable();
                 //Minor Bug: Refreshing Issued not refreshing Live
                 for (Component comp : switchPanel.getComponents()) {
                     if (comp instanceof Dashboard dashboard) {

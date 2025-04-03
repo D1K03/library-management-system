@@ -12,6 +12,11 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class ManageMenu extends JPanel implements ActionListener {
     private CardLayout cardLayout;
@@ -54,11 +59,8 @@ public class ManageMenu extends JPanel implements ActionListener {
         title.putClientProperty(FlatClientProperties.STYLE, "font:bold 24");
 
         managePanel.add(title, "gapx 85");
-        managePanel.add(bookTitle, "gapy 50, height 30");
-        managePanel.add(bookAuthor, "gapy 20, height 30");
-        managePanel.add(bookPublish, "gapy 20, height 30");
+        managePanel.add(bookISBN, "gapy 50, height 30");
         managePanel.add(bookCategory, "gapy 20, height 30");
-        managePanel.add(bookISBN, "gapy 20, height 30");
         managePanel.add(bookAvailable, "gapy 20, height 30");
         managePanel.add(addBtn, "gapy 20, height 30");
     }
@@ -81,12 +83,67 @@ public class ManageMenu extends JPanel implements ActionListener {
 
     private void resetBookField() {
         bookTitle.setText("");
-        bookAuthor.setText("");
-        bookPublish.setText("");
         bookCategory.setText("");
-        bookISBN.setText("");
         bookAvailable.setText("");
     }
+
+
+    private void addBookByIsbn(String isbnInput, String genre, int availableStock) {
+        try {
+            String apiURL = "https://openlibrary.org/api/books?bibkeys=ISBN:" + isbnInput + "&format=json&jscmd=data";
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(apiURL))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                // Parse JSON response
+                Gson gson = new Gson();
+                JsonObject jsonResponse = gson.fromJson(response.body(), JsonObject.class);
+                String key = "ISBN:" + isbnInput;
+                if (jsonResponse.has(key)) {
+                    JsonObject bookData = jsonResponse.getAsJsonObject(key);
+
+                    String title = bookData.has("title") ? bookData.get("title").getAsString() : "Unknown Title";
+
+                    String author = "Unknown Author";
+                    if (bookData.has("authors")) {
+                        try {
+                            author = bookData.getAsJsonArray("authors")
+                                    .get(0).getAsJsonObject()
+                                    .get("name").getAsString();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+
+                    String publisher = "Unknown Publisher";
+                    if (bookData.has("publishers")) {
+                        try {
+                            publisher = bookData.getAsJsonArray("publishers")
+                                    .get(0).getAsJsonObject()
+                                    .get("name").getAsString();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+
+                    bookService.addBook(title, author, publisher, genre, isbnInput, availableStock, 0);
+                    JOptionPane.showMessageDialog(this, "Book added successfully:\nTitle: " + title + "\nAuthor: " + author);
+                } else {
+                    JOptionPane.showMessageDialog(this, "No book details found for ISBN: " + isbnInput);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "API request failed with status: " + response.statusCode());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        }
+    }
+
 
     /**
      * New book is added to the database
@@ -96,24 +153,16 @@ public class ManageMenu extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addBtn) {
-            String isbnName = bookISBN.getText();
-            String apiURL = "https://openlibrary.org/api/books?bibkeys=ISBN:" + isbnName + "&format=json&jscmd=data";
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(apiURL))
-                    .GET()
-                    .build();
+            String isbnNumber = bookISBN.getText().trim();
+            if (isbnNumber.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter a Book Name.");
+                return;
+            }
 
-            System.out.println(apiURL);
-
-            String titleName = bookTitle.getText();
-            String authorName = bookAuthor.getText();
-            String publishName = bookPublish.getText();
-            String categoryName = bookCategory.getText();
+            String genre = bookCategory.getText();
             int stockValue = Integer.parseInt(bookAvailable.getText());
-            int borrowedValue = 0;
 
-            bookService.addBook(titleName, authorName, publishName, categoryName, isbnName, stockValue, borrowedValue);
+            addBookByIsbn(isbnNumber, genre, stockValue);
             resetBookField();
             JOptionPane.showMessageDialog(this, "New Book has been added!");
             booksMenu.loadBooksData();
